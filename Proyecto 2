@@ -1,0 +1,370 @@
+# <font face = "Times New Roman" size = 14><center> Manual de Usuario </font></center>
+
+##  <font face = "Times New Roman"> Hola Querido Usuario, a continuación se detalla la función que tiene cada uno de los códigos, en C++ y Python, en él tendrás la oportunidad de ver un registro. </font>
+#
+# <center> <font face = "Times New Roman" size = 6> C++ </center> </font>
+##  <font face = "Times New Roman">Estas son las Librerías que estaremos utilizando para que el código pueda compilar </font>
+```
+#include <iostream>
+#include <stdlib.h>
+#include <string.h>
+#include <fstream>
+#include <windows.h>
+```
+##  <font face = "Times New Roman">Los void los utilizaremos para que se puedan ejecutar cada una de las funciones el el registro, como la creación del archibo, su visualización, la creación del mismo y buscar. Todos estos nos llevaran hasta el menú. </font>
+```
+using namespace std;
+
+void menu();
+void crear_archivo();
+void visualizar_producto();
+void crear_producto();
+void buscar_producto();
+
+struct Datos{
+	string nombre,codigo,precio,proveedor,existencia,estado,descuento,Bcod;
+}datos;
+
+int main(){
+	menu();
+	int Bcod;
+	
+	system("pause");
+	return 0;
+	
+}
+
+void menu(){
+	int opcion;
+	
+	do{
+		cout<<"\t======================="<<endl;
+		cout<<"\t---[Menu Inventario]---"<<endl;
+		cout<<"\t======================="<<endl<<endl;
+		cout<<"Bienvenido, Que desea realizar: "<<endl;
+		cout<<"_________________"<<endl<<endl;
+		cout<<"1. Crear Archivo"<<endl;
+		cout<<"2. Visualizar Productos"<<endl;
+		cout<<"3. Agregar un Producto"<<endl;
+		cout<<"4. Buscar un Producto"<<endl;
+		cout<<"5. Modificar los datos de un producto"<<endl;
+		cout<<"6. Salir"<<endl;
+		cout<<"_________________"<<endl;
+		cout<<"\n";
+		cout<<">> Opcion: ";
+		cin>>opcion;
+		cout<<"\n";
+```	    
+##  <font face = "Times New Roman">El switch nos permitirá direccionarnos a cada una de las funciones del programa por eso se programa a cada función un case. </font>  
+```		
+		switch(opcion){
+			case 1: crear_archivo();
+			cout<<"\n";
+			system("pause");
+			break;
+			case 2: visualizar_producto();
+			cout<<"\n";
+			system("pause");
+			break;
+			case 3: crear_producto();
+			cout<<"\n";
+			system("pause");
+			break;
+			case 4: buscar_producto();
+			cout<<"\n";
+			system("pause");
+			break;
+		}
+		system("cls");
+	}while(opcion != 6);
+}
+```
+##  <font face = "Times New Roman">Esta es la función que nos permitirá crear el archivo .txt </font>  
+```	
+//Función que crea el archivo .txt
+void crear_archivo(){
+	ofstream archivo;
+	char respuesta;
+	int opcion;
+	
+	archivo.open("Inventario.txt", ios::out); //Abriendo el archivo en modo edición con OUT
+```	
+##  <font face = "Times New Roman">Hay que tener en claro que hay una estructura predeterminada ennuestro archivo.txt </font> 
+```	
+	if(archivo.fail()){
+		cout<<"No se pudo abrir el archivo";
+		exit(1);
+	}
+		archivo<<"\t==============================="<<endl;
+		archivo<<"\t---[Inventario de Productos]---"<<endl;
+		archivo<<"\t==============================="<<endl<<endl;
+		archivo<<"_________________"<<endl<<endl;
+		archivo<<"Nombre del producto: Mayonesa"<<endl;
+		archivo<<"Codigo del producto: 0001"<<endl;
+		archivo<<"Precio del producto: 16"<<endl;
+		archivo<<"Proveedor del producto: Hellmanns"<<endl;
+		archivo<<"Existencia del producto: 50"<<endl;
+		archivo<<"Estado del producto: A"<<endl;
+		archivo<<"Descuento del producto: 1.2"<<endl;
+		archivo<<"_________________"<<endl;
+		
+	archivo.close(); //Cerrando el archivo
+}
+```
+##  <font face = "Times New Roman">Aquí empezamos a utilizar los void y este nos permitirá ver los productos que posee el archivo .txt </font>  
+```
+//Función que permite ver los productos que posee el archivo .txt
+void visualizar_producto(){
+	ifstream archivo;
+	string texto;
+	system("cls");
+	
+	archivo.open("Inventario.txt", ios::in); //Abriendo el archivo en modo lectura con el IN
+	
+	if(archivo.fail()){
+		cout<<"No se puedo abrir el archivo";
+		exit(1);
+	}	
+	
+	while(!archivo.eof()){ //Mientras no sea el final del archivo seguira recorriendo el código
+		getline(archivo,texto);
+		cout<<texto<<endl;	
+	}
+	
+	archivo.close(); // Cerramos el archivo
+}
+
+```
+##  <font face = "Times New Roman">Con esta función podremos crear o añadir más productos al archivo .txt.</font>  
+
+
+```
+//Función que permite crear - añadir más productos al archivo .txt
+void crear_producto(){
+	ofstream archivo;
+	char respuesta;
+	system("cls");
+	
+	archivo.open("Inventario.txt",ios::app); //Abrimos el archivo en modo escritura
+	
+	if(archivo.fail()){
+		cout<<"No se pudo crear el archivo";
+		exit(1);
+	}
+
+	do{
+		fflush(stdin);
+		cout<<"\t======================="<<endl;
+		cout<<"\t---[Crear Productos]---"<<endl;
+		cout<<"\t======================="<<endl;
+		cout<<"_________________"<<endl<<endl;
+		cout<<"Digite el nombre del producto: ";
+		getline(cin,datos.nombre);
+		cout<<"Digite el codigo del producto: ";
+		getline(cin,datos.codigo);
+		cout<<"Digite el precio del producto: ";
+		getline(cin,datos.precio);
+		cout<<"Digite el proveedor del producto: ";
+		getline(cin,datos.proveedor);
+		cout<<"Digite el existencia del producto: ";
+		getline(cin,datos.existencia);
+		cout<<"Digite el estado del producto: ";
+		getline(cin,datos.estado);
+		cout<<"Digite el descuento del producto: ";
+		getline(cin,datos.descuento);
+		cout<<"_________________"<<endl;
+		cout<<"\n";
+		
+		archivo<<"_________________"<<endl<<endl;
+		archivo<<"Nombre del producto: "<<datos.nombre<<endl;
+		archivo<<"Codigo del producto: "<<datos.codigo<<endl;
+		archivo<<"Precio del producto: "<<datos.precio<<endl;
+		archivo<<"Proveedor del producto: "<<datos.proveedor<<endl;
+		archivo<<"Existencia del producto: "<<datos.existencia<<endl;
+		archivo<<"Estado del producto: "<<datos.estado<<endl;
+		archivo<<"Descuento del producto: "<<datos.descuento<<endl;
+		archivo<<"_________________"<<endl;
+		
+		cout<<"Desea agregar otro producto (S/N): ";
+		cin>>respuesta;
+		cout<<"\n";
+	}while(respuesta == 'S' || respuesta == 's');
+	
+	archivo.close(); //Cerramos el archivo
+    }
+
+```
+
+##  <font face = "Times New Roman"> Siguiendo bien los pasos aquí podremos buscar un registro, ya sea por el nombe o por su código. Cada cout se aferra a un getline quien llamará a los datos del archivo</font>  
+```
+//Función que permite buscar algún registro - productos en el archivo .txt
+void buscar_producto(){
+	fstream archivo;
+	string cadena, linea, linea2, linea3, linea4, linea5, linea6, linea7;	
+	int res = 0; 
+	system("cls");
+	
+	cout<<"\t==============================="<<endl;
+	cout<<"\t---[Inventario de Productos]---"<<endl;
+	cout<<"\t==============================="<<endl<<endl;
+	cout<<"Introduce el nombre o codigo: ";
+	cin>>cadena;
+	
+	if (!archivo.is_open()){
+		archivo.open("Inventario.txt",ios::in);
+		while(getline(archivo, linea)){	
+			if(linea.find(cadena)!= string::npos){
+				cout<<"_________________"<<endl<<endl;
+				cout<<linea<<endl;
+				getline(archivo, linea2);
+				cout<<linea2<<endl;
+				getline(archivo,linea3);
+				cout<<linea3<<endl;
+				getline(archivo, linea4);
+				cout<<linea4<<endl;
+				getline(archivo, linea5);
+				cout<<linea5<<endl;
+				getline(archivo, linea6);
+				cout<<linea6<<endl;
+				getline(archivo, linea7);
+				cout<<linea7<<endl;
+				cout<<"_________________"<<endl;
+				res = 1;
+			}
+			
+		
+		}
+		if (res == 0){
+			cout<<"_________________"<<endl<<endl;
+			cout<<">> Dato no encontrado... (-_-;)"<<endl;
+			cout<<"_________________"<<endl;
+		}	
+		system("pause");
+	}
+}
+
+```
+# <center> <font face = "Times New Roman" size = 6> Python </center> </font>
+
+##  <font face = "Times New Roman"> En nuestro código, definimos el menú con una estrutcuta para que se puedan escoger las opciones y de esa manera creamos el archivo txt. </font>  
+
+```
+from os import system
+
+class producto:
+    nombre = ""
+    codigo = 0
+    precio = 0
+    proveedor = ""
+    existencia = -0
+    estado = ""
+    descuento = -0
+
+def ingresar_producto ():
+    with open("productos.csv","a") as archivo:
+        p = producto()
+        p.nombre = input("Ingrese nombre: ")
+        p.codigo = input("Ingrese codigo: ")
+        p.precio = input("Ingrese precio: ")
+        p.proveedor = input("Ingrese proveedor: ")
+        p.existencia = input("Ingrese existencia: ")
+        p.estado = input("Ingrese estado: ")
+        p.descuento = input("Ingrese descuento: ")
+
+        archivo.write(p.nombre+ "," + p.codigo+ "," + p.precio+ "," + p.proveedor+ "," + p.existencia+ "," + p.estado+ "," + p.descuento+ "\n" )
+        archivo.close() 
+        
+```
+##  <font face = "Times New Roman"> Luego configuramos la primer opción que añadir productos con los print que se encuentran, definen las existencias, el proveedor y todo lo indicado. </font>  
+```
+def modificar ():
+    codigo = input("ingrese el codigo de producto: ")
+    with open("productos.csv","r") as archivo:
+       
+        for i,p in enumerate(archivo):
+            l = p.split(sep=',')
+            if codigo in l :
+                    j = i
+                    print("1) Producto:")
+                    print("2) Precio:")
+                    print("3) Proveedor:")
+                    print("4) Existencia:")
+                    print("5) Estado:")
+                    print("6) Descuento:")
+                    valor = input("Que propiedad desea modificar: ")
+                    if int(valor) in [1,2,3,4,5,7]:                    
+                        p = producto()
+                        p.nombre = l[0]
+                        p.codigo =l[1]
+                        p.precio =l[2]
+                        p.proveedor =l[3]
+                        p.existencia=l[4]
+                        p.estado=l[5]
+                        p.descuento=l[6]
+                        
+                        if int(valor) == 1:
+                            p.nombre=input("Nombre de producto: ")
+                        if int(valor) == 2:
+                            p.precio=input("Ingrese nuevo precio")
+                        if int(valor) == 3:
+                            p.proveedor=input("nuevo valor proveedor")
+                        if int(valor) == 4:
+                            p.existencia=input("nuevo valor existencia")
+                        if int(valor) == 5:
+                            p.estado=input("nuevo valor estado")
+                        if int(valor) == 6:
+                            p.descuento=input("nuevo valor descuento")
+                        with open("productos.csv","a") as archivo:
+                             archivo.write(p.nombre+ "," + p.codigo+ "," + p.precio+ "," + p.proveedor+ "," + p.existencia+ "," + p.estado+ "," + p.descuento+ "\n" )
+                             archivo.close() 
+                            
+                        return
+                    print("propiedad no existe")
+                    return
+       
+```
+
+##  <font face = "Times New Roman"> Finalmente la opción buscar que permite ver el archivo e indigar el producto por nombre o código. </font>  
+```
+
+def buscar ():
+    codigo = input("ingrese el codigo de producto: ")
+    with open("productos.csv","r") as archivo:
+        for p in archivo:
+            l = p.split(sep=',')
+            if codigo in l :
+                print("Producto: "+l[0])
+                print("Codigo: "+l[1])
+                print("Precio: "+l[2])
+                print("Proveedor: "+l[3])
+                print("Existencia: "+l[4])
+                print("Estado: "+l[5])
+                print("Descuento: "+l[6])            
+            
+while  True:
+    try:
+        print("Menú")
+        print ("[1] Ingresar producto ")
+        print ("[2] modificar producto")
+        print ("[3] Buscar producto")
+        print ("[4] Salir")
+        
+        ope = int(input("Que deseas realizar: "))
+    except ValueError:
+        print("Porfavor ingresa una opcion valida")
+    else:
+        if ope < 1 or ope >4:
+            print ("no es una opcion valida")
+            continue
+        if ope == 1:
+            ingresar_producto()
+        elif ope == 2:
+            modificar()
+        elif ope == 3:
+            buscar()
+        else:
+            break                
+print ("Gracias por utilizar esta aplicacion")
+
+```
+##  <font face = "Times New Roman"> Gracias querido usuario por usar nuestros códigos. </font>  
