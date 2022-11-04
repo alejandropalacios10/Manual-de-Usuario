@@ -1,0 +1,198 @@
+# <font face = "Times New Roman" size = 14><center> Manual de Usuario </font></center>
+
+##  <font face = "Times New Roman"> Hola Querido Usuario, a continuación se detalla la función que tiene nuestra interfaz en Python, en él tendrás la oportunidad de abrir archivos, guardarlos y editarlos, acompañado de las herramientas. </font>
+#
+# <center> <font face = "Times New Roman" size = 6> Interfaz Python </center> </font>
+##  <font face = "Times New Roman">Estas son las Librerías que estaremos utilizando para que el código pueda compilar </font>
+
+```
+from argparse import FileType
+from asyncore import write
+from logging import root
+from io import open
+from tkinter import filedialog as f
+from tkinter import *
+from tkinter import messagebox
+from tkinter.messagebox import *
+from tkinter.filedialog import *
+import webbrowser
+import tkinter as tk
+import tkinter.font as tkFont
+```
+##  <font face = "Times New Roman">Con esta opción, estaremos creando la primera etiqueta o primer label, que es el archivo quien obtendrá las opciones de Nuevo, Abrir, Guardar, Guardar Como y Salir </font>
+
+```
+def crear_archivo():
+	global ruta
+	texto.delete(1.0, "end")
+	ruta = ""
+	root.title(ruta + nombre)
+
+menu_de_archivo = Menu(encabezados, tearoff= 0)
+menu_de_archivo.add_command(label= "Nuevo", command= crear_archivo)
+menu_de_archivo.add_separator()
+menu_de_archivo.add_command(label= "Abrir", command= abrir)
+menu_de_archivo.add_separator()
+("Todos los ficheros",".*") 
+
+```
+
+##  <font face = "Times New Roman">Y empezamos con las opciones de ARCHIVO, empezamos con Abrir donde especificamos una ruta con opción multiple esto significa que todo tipo de archivo de texto puede ser ejecutado, editado y guardado</font>
+
+```
+def abrir():
+	global ruta
+	ruta = f.askopenfilename(initialdir= '.',filetype = ((
+		("Todos los ficheros",".*") 
+	),), title= "Abrir")
+
+	if ruta != "":
+		archivo = open(ruta, 'r')
+	cuerpo = archivo.read()
+	texto.delete(1.0, "end")
+	texto.insert('insert', cuerpo)
+	archivo.close()
+	root.title(ruta + nombre)	
+
+```
+##  <font face = "Times New Roman">Seguimos con Archivo y nos corresponde Guardar, para esta opción utilizamos if donde colocamos la ruta donde, si es un nuevo archivo se puede colocar un nuevo nombre y si queremos que guarde las configuraciones al darle Guardar automaticamente lo hace.</font>
+
+```
+def Guardar():
+	global ruta
+	if ruta != "":
+		cuerpo = texto.get(1.0, "end-1c")
+		archivo = open(ruta, 'w+')
+		archivo.write(cuerpo)
+		root.title("Guardado" +ruta + nombre)
+		archivo.close()
+	else:
+		archivo = f.asksaveasfile(title= "guardar archivo",mode= 'w', defaultextension= ".txt")	
+		if archivo is not None:
+			ruta = archivo.name
+			cuerpo = texto.get(1.0, "end-1c")
+			archivo = open(ruta, 'w+')	
+			archivo.write(cuerpo)
+			root.title("El archivo se guardo" + ruta + nombre)
+			archivo.close()
+		else:
+			ruta = ""
+			root.title("No se guardo el archivo " +ruta + nombre)
+
+menu_de_archivo.add_command(label= "Guardar y Guardar como", command= Guardar)
+menu_de_archivo.add_separator()
+menu_de_archivo.add_command(label= "Salir", command= root.quit)
+encabezados.add_cascade(menu= menu_de_archivo, label= "Archivo")
+
+```
+
+##  <font face = "Times New Roman">Pasamos a un nuevo Label que es AYUDA, aquí encontraremos la información textual de este Programa, como la información,donde contiene el resumen sobre que trata el proyecto, contiene el Presente Manual de Usuario, y finalmente los Integrantes encargados de la realización del mismo. Para ello utilizamos messagebox externos con la opción de Aceotar y Cancelar   </font>
+
+```
+encabezados = Menu(root)
+
+def	grupo ():
+		 print(messagebox.askokcancel(message="\n\n" 
+                        "Carol Alicia Grijalva Pineda          No. Carné: 7690-22-224"
+                        "\n\n" 
+                        "Angel Eraldo Ramos Lemus              No. Carné 7690-21-6640"
+                        "\n\n" 
+                        "Pedro Alejandro López Palacios      No. Carné 7690-22-3325"
+						"\n\n" 
+                        "José Víctor Godínez González      No. Carné 7690-21-4685", title="Integrantes"))
+def	info ():
+		 print(messagebox.askokcancel(message="\n\n" 
+                        "El sigueinte proyecto trata sobre un menu de interfaz grafica"
+                        "que muestra ciertas opciones para su uso del usuario las cuales son"
+                        " Archivo, edicion y ayuda, en la parte de archivo le permitira al usario poder abrir y crear nuevos archivos de texto "
+						" en la parte de edición podrá recortar, pegar, copiar, dehacer y rehacer texto"
+						"en la parte de ayuda el usuario podrá visualizar la explicación de nuestro proyecto"
+						" al igual visualizar quienes fueron los que realizaron el proyecto III"
+						"tambien podrán encontrar los archivos de trabajo PDF, Mardwon y el video tutorial del proyecto."
+						"\n\n" 
+                        "", title="Información sobre el proyecto"))
+		 		 
+```
+##  <font face = "Times New Roman">En esta opción tiene lugar la Pestaña o Label EDICIÓN, el cual tiene la finalidad de hacer cambios en nuestro interfaz. En el primer punto que es deshacer lo programamos con "control z"</font>
+```
+
+edicion = Menu(encabezados, tearoff= 0)
+edicion.add_command(label= "Deshacer (Ctrl + Z)    ", command= rehacer)
+edicion.add_command(label= "Rehacer (Ctrl + Y)    ", command= deshacer)
+edicion.add_command(label= "Copiar (Ctrl + C) ", command= copiar)
+edicion.add_command(label= "Cortar (Ctrl + X)", command= cortar)
+edicion.add_command(label="Pegar (Ctrl + V", command= pegar)
+
+def deshacer(self, event=None):
+        self.tk.call(self, 'edit', 'undo')
+        return 'break'
+		
+edicion.add_command(label='Deshacer',
+                             command=self.text_01.deshacer,
+                             accelerator='Ctrl+Z'
+```
+##  <font face = "Times New Roman">Ahora con Rehacer utlizaremos el comando o atajo "control y"</font>
+```    
+def rehacer(self, event=None):
+        self.tk.call(self, 'edit', 'redo')
+        return 'break'
+
+edicion.add_command(label='Rehacer',
+     command=self.text_01.rehacer,
+    accelerator='Ctrl+Shift+Z'
+```   	
+##  <font face = "Times New Roman">Para copiar utilizamos "control c"</font>
+```   
+def copiar(self, event=None):
+        self.event_generate("<<Copy>>")
+        self.see("insert")
+        return 'break'
+
+edicion.add_command(label='Copiar',
+                             command=self.text_01.copiar,
+                             accelerator='Ctrl+C'
+```
+##  <font face = "Times New Roman">A continuación utilizaremos "control x"</font>
+```
+def cortar(self, event=None):
+        self.event_generate("<<Cut>>")
+        return 'break'
+
+edicion.add_separator()
+        edicion.add_command(label='Cortar',
+                             command=self.text_01.cortar,
+                             accelerator='Ctrl+X'
+```
+##  <font face = "Times New Roman">Y para pegar colocamos el atajo "control v"</font>
+```
+def pegar(self, event=None):
+        self.event_generate("<<Paste>>")
+        self.see("insert")
+        return 'break'
+
+edicion.add_command(label='Pegar',
+        command=self.text_01.pegar,
+        accelerator='Ctrl+V'
+```
+##  <font face = "Times New Roman">Aquí colocoamos los encabezados o las etiquetas requeridas.</font>
+```
+encabezados.add_cascade(label ="Edicion", menu =edicion)
+
+
+ayudaMenu = Menu(encabezados, tearoff= 0)
+ayudaMenu.add_command(label="Información ", command= info)
+
+ayudaMenu.add_command(label="Manual de Usario")
+
+ayudaMenu.add_command(label= "Integrantes", command= grupo)
+
+encabezados.add_cascade(label ="Ayuda", menu =ayudaMenu)
+
+texto = Text(root)
+texto.pack(fill= "both", expand= 1)
+texto.config(bd = 0, padx= 6, pady= 5, font =("Century Gothic", 15))
+root.config(menu= encabezados)
+root.mainloop()
+
+```
+##  <font face = "Times New Roman"> Gracias por usar este manual, querido usuario. </font>
