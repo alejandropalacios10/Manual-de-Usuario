@@ -19,6 +19,18 @@ import webbrowser
 import tkinter as tk
 import tkinter.font as tkFont
 ```
+##  <font face = "Times New Roman">Esta opción la utilizaremos unicamente para colocarle ícono a la esquina de nuestro interfaz. </font>
+```
+root = Tk()
+root.title(nombre)
+root.config(bg="#D6EAF8")	
+root.iconbitmap("icono.ico")
+```
+##  <font face = "Times New Roman">Realizamos nuestro Frame </font>
+```
+miFrame=Frame()
+miFrame=Pack()
+```
 ##  <font face = "Times New Roman">Con esta opción, estaremos creando la primera etiqueta o primer label, que es el archivo quien obtendrá las opciones de Nuevo, Abrir, Guardar, Guardar Como y Salir </font>
 
 ```
@@ -175,16 +187,40 @@ edicion.add_command(label='Pegar',
         accelerator='Ctrl+V'
 ```
 ##  <font face = "Times New Roman">Aquí colocoamos los encabezados o las etiquetas requeridas.</font>
-```
-encabezados.add_cascade(label ="Edicion", menu =edicion)
+
+```     
+menu_de_archivo = Menu(encabezados, tearoff= 0)
+menu_de_archivo.add_command(label= "Nuevo", command= crear_archivo)
+menu_de_archivo.add_separator()
+menu_de_archivo.add_command(label= "Abrir", command= abrir)
+menu_de_archivo.add_separator()
+("Todos los ficheros",".*") 
+
+
+edicion = Menu(encabezados, tearoff= 0)
+edicion.add_command(label= "Deshacer Ctrl + z    ", command= deshacer)
+edicion.add_separator()
+edicion.add_command(label= "Rehacer Ctrl + y ", command= rehacer)
+edicion.add_separator()
+edicion.add_checkbutton(label="Copiar Ctrl + c",command= copiar)
+edicion.add_separator()
+edicion.add_checkbutton(label="Pegar Ctrl + v",command= pegar)
+edicion.add_separator()
+edicion.add_checkbutton(label="Cortar Ctrl + x",command= cortar)
+edicion.add_separator()	
+encabezados.add_cascade(label ="Edicion", menu =edicion)```
 
 
 ayudaMenu = Menu(encabezados, tearoff= 0)
-ayudaMenu.add_command(label="Información ", command= info)
-
-ayudaMenu.add_command(label="Manual de Usario")
-
 ayudaMenu.add_command(label= "Integrantes", command= grupo)
+ayudaMenu.add_separator()
+ayudaMenu.add_command(label="Información ", command= info)
+ayudaMenu.add_separator()
+ayudaMenu.add_command(label="Manual de Usario", command= link_manual)
+ayudaMenu.add_separator()
+ayudaMenu.add_command(label= "Codigo en la web",command= linkGiubu)
+ayudaMenu.add_separator()
+ayudaMenu.add_cascade(label= "Link video youtube",command= link_video)
 
 encabezados.add_cascade(label ="Ayuda", menu =ayudaMenu)
 
